@@ -65,6 +65,11 @@ if menu == "Treinos":
 
     semana_num = 0
     current = INICIO
+    
+    def update_check(key):
+    value = st.session_state[key]
+    save_check(key, value)
+    st.toast("Salvo ✅")
 
     while current <= PROVA:
         semana_num += 1
@@ -89,11 +94,13 @@ if menu == "Treinos":
                             feito = checks.get(tid, False)
                             st.write(f"{emoji} {desc}")
 
-                            novo = st.checkbox("Feito", value=feito, key=tid)
-
-                            if novo != feito:
-                                save_check(tid, novo)
-                                st.toast("Salvo ✅")
+                        st.checkbox(
+                            "Feito",
+                            value=feito,
+                            key=tid,
+                            on_change=update_check,
+                            args=(tid,)
+                        )
 
         current = lun + timedelta(weeks=1)
 
@@ -189,5 +196,6 @@ if menu == "Análise":
         ax2.spines["left"].set_color("white")
 
         plt.xticks(rotation=45)
+
 
         st.pyplot(fig2)
