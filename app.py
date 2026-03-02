@@ -124,11 +124,30 @@ if menu == "Análise":
     st.header("Simbora Vinícius - VAI DAR CERTO! FOCO!")
     st.markdown("---")
 
-    total = len(checks)
-    feitos = sum(1 for v in checks.values() if v)
-    percentual = (feitos / total * 100) if total > 0 else 0
+    # ======================
+    # FUNÇÃO TOTAL PLANEJADO
+    # ======================
 
-    st.metric("Progresso Geral", f"{percentual:.1f}%")
+    def total_treinos_planejados():
+        total = 0
+        semana_num = 0
+        current = INICIO
+
+        while current <= PROVA:
+            semana_num += 1
+
+            for dia in range(7):
+                d = current + timedelta(days=dia)
+
+                if d > PROVA:
+                    break
+
+                treinos = treinos_do_dia(semana_num, dia, d)
+                total += len(treinos)
+
+            current += timedelta(weeks=1)
+
+        return total
 
     # ======================
     # CONTAGEM MODALIDADES
@@ -152,67 +171,46 @@ if menu == "Análise":
             elif "_brick" in key:
                 modalidades["Brick"] += 1
 
-def total_treinos_planejados():
-    total = 0
-    semana_num = 0
-    current = INICIO
-
-    while current <= PROVA:
-        semana_num += 1
-
-        for dia in range(7):
-            d = current + timedelta(days=dia)
-
-            if d > PROVA:
-                break
-
-            treinos = treinos_do_dia(semana_num, dia, d)
-            total += len(treinos)
-
-        current += timedelta(weeks=1)
-
-    return total
-
     # ======================
-    # COLUNAS LADO A LADO
+    # COLUNAS
     # ======================
 
     col1, col2 = st.columns(2)
 
-    # -------- COLUNA 1 - Percentual --------
+    # -------- COLUNA 1 - Pizza Progresso --------
     with col1:
 
-    total = total_treinos_planejados()
-    feitos = sum(1 for v in checks.values() if v)
-    restantes = total - feitos
-    percentual = (feitos / total * 100) if total > 0 else 0
+        total = total_treinos_planejados()
+        feitos = sum(1 for v in checks.values() if v)
+        restantes = total - feitos
+        percentual = (feitos / total * 100) if total > 0 else 0
 
-    fig1, ax1 = plt.subplots()
+        fig1, ax1 = plt.subplots()
 
-    fig1.patch.set_facecolor(background_color)
-    ax1.set_facecolor(background_color)
+        fig1.patch.set_facecolor(background_color)
+        ax1.set_facecolor(background_color)
 
-    cores = [azul_medio, "#1B2A41"]  # azul progresso + azul escuro restante
+        cores = [azul_medio, "#1B2A41"]
 
-    ax1.pie(
-        [feitos, restantes],
-        labels=["Concluídos", "Restantes"],
-        autopct="%1.1f%%",
-        startangle=90,
-        colors=cores,
-        textprops={"color": "white"}
-    )
+        ax1.pie(
+            [feitos, restantes],
+            labels=["Concluídos", "Restantes"],
+            autopct="%1.1f%%",
+            startangle=90,
+            colors=cores,
+            textprops={"color": "white"}
+        )
 
-    ax1.set_title("Progresso Total até a Prova", color="white")
+        ax1.set_title("Progresso Total até a Prova", color="white")
 
-    # Círculo no meio (efeito donut)
-    centre_circle = plt.Circle((0, 0), 0.70, fc=background_color)
-    fig1.gca().add_artist(centre_circle)
+        centre_circle = plt.Circle((0, 0), 0.70, fc=background_color)
+        fig1.gca().add_artist(centre_circle)
 
-    st.pyplot(fig1)
+        st.pyplot(fig1)
 
     # -------- COLUNA 2 - Modalidades --------
     with col2:
+
         fig2 = plt.figure()
         ax2 = fig2.add_subplot(111)
 
@@ -230,9 +228,7 @@ def total_treinos_planejados():
 
         plt.xticks(rotation=45)
 
-
         st.pyplot(fig2)
-
 
 
 
