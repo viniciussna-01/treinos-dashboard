@@ -152,6 +152,25 @@ if menu == "Análise":
             elif "_brick" in key:
                 modalidades["Brick"] += 1
 
+    def total_treinos_planejados():
+    total = 0
+    semana_num = 0
+    current = INICIO
+
+    while current <= PROVA:
+        semana_num += 1
+        for dia in range(7):
+            d = current + timedelta(days=dia)
+            if d > PROVA:
+                break
+
+            treinos = treinos_do_dia(semana_num, dia, d)
+            total += len(treinos)
+
+        current += timedelta(weeks=1)
+
+    return total
+
     # ======================
     # COLUNAS LADO A LADO
     # ======================
@@ -160,23 +179,35 @@ if menu == "Análise":
 
     # -------- COLUNA 1 - Percentual --------
     with col1:
-        fig1 = plt.figure()
-        ax1 = fig1.add_subplot(111)
 
-        fig1.patch.set_facecolor(background_color)
-        ax1.set_facecolor(background_color)
+    total = total_treinos_planejados()
+    feitos = sum(1 for v in checks.values() if v)
+    restantes = total - feitos
+    percentual = (feitos / total * 100) if total > 0 else 0
 
-        ax1.bar(["Concluído"], [percentual], color=azul_medio)
+    fig1, ax1 = plt.subplots()
 
-        ax1.set_ylim(0, 100)
-        ax1.set_ylabel("%", color="white")
-        ax1.set_title("Percentual Concluído", color="white")
+    fig1.patch.set_facecolor(background_color)
+    ax1.set_facecolor(background_color)
 
-        ax1.tick_params(colors="white")
-        ax1.spines["bottom"].set_color("white")
-        ax1.spines["left"].set_color("white")
+    cores = [azul_medio, "#1B2A41"]  # azul progresso + azul escuro restante
 
-        st.pyplot(fig1)
+    ax1.pie(
+        [feitos, restantes],
+        labels=["Concluídos", "Restantes"],
+        autopct="%1.1f%%",
+        startangle=90,
+        colors=cores,
+        textprops={"color": "white"}
+    )
+
+    ax1.set_title("Progresso Total até a Prova", color="white")
+
+    # Círculo no meio (efeito donut)
+    centre_circle = plt.Circle((0, 0), 0.70, fc=background_color)
+    fig1.gca().add_artist(centre_circle)
+
+    st.pyplot(fig1)
 
     # -------- COLUNA 2 - Modalidades --------
     with col2:
@@ -199,5 +230,6 @@ if menu == "Análise":
 
 
         st.pyplot(fig2)
+
 
 
