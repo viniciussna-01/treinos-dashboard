@@ -66,7 +66,7 @@ if menu == "Treinos":
     semana_num = 0
     current = INICIO
     
-    def update_check(key):
+def update_check(key):
     value = st.session_state[key]
     save_check(key, value)
     st.toast("Salvo ✅")
@@ -199,3 +199,4 @@ if menu == "Análise":
 
 
         st.pyplot(fig2)
+
