@@ -152,15 +152,17 @@ if menu == "Análise":
             elif "_brick" in key:
                 modalidades["Brick"] += 1
 
-    def total_treinos_planejados():
+def total_treinos_planejados():
     total = 0
     semana_num = 0
     current = INICIO
 
     while current <= PROVA:
         semana_num += 1
+
         for dia in range(7):
             d = current + timedelta(days=dia)
+
             if d > PROVA:
                 break
 
@@ -230,6 +232,7 @@ if menu == "Análise":
 
 
         st.pyplot(fig2)
+
 
 
 
