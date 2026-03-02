@@ -66,10 +66,10 @@ if menu == "Treinos":
     semana_num = 0
     current = INICIO
     
-def update_check(key):
-    value = st.session_state[key]
-    save_check(key, value)
-    st.toast("Salvo ✅")
+    def update_check(key):
+        value = st.session_state[key]
+        save_check(key, value)
+        st.toast("Salvo ✅")
 
     while current <= PROVA:
         semana_num += 1
@@ -94,13 +94,13 @@ def update_check(key):
                             feito = checks.get(tid, False)
                             st.write(f"{emoji} {desc}")
 
-                        st.checkbox(
-                            "Feito",
-                            value=feito,
-                            key=tid,
-                            on_change=update_check,
-                            args=(tid,)
-                        )
+                            st.checkbox(
+                                "Feito",
+                                value=feito,
+                                key=tid,
+                                on_change=update_check,
+                                args=(tid,)
+                            )
 
         current = lun + timedelta(weeks=1)
 
@@ -199,4 +199,5 @@ if menu == "Análise":
 
 
         st.pyplot(fig2)
+
 
