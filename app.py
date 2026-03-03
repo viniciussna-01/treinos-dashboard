@@ -123,25 +123,29 @@ if menu == "Análise":
     # FUNÇÃO TOTAL PLANEJADO
     # ======================
 
+    def get_checks():
+        return load_checks()
+    
+    
     def total_treinos_planejados():
         total = 0
         semana_num = 0
         current = INICIO
-
+    
         while current <= PROVA:
             semana_num += 1
-
+    
             for dia in range(7):
                 d = current + timedelta(days=dia)
-
+    
                 if d > PROVA:
                     break
-
+    
                 treinos = treinos_do_dia(semana_num, dia, d)
                 total += len(treinos)
-
+    
             current += timedelta(weeks=1)
-
+    
         return total
 
     # ======================
@@ -224,6 +228,7 @@ if menu == "Análise":
         plt.xticks(rotation=45)
 
         st.pyplot(fig2)
+
 
 
 
