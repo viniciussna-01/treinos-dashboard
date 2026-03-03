@@ -114,6 +114,7 @@ azul_escuro = "#1565C0"
 if menu == "Análise":
 
     checks = get_checks()
+    st.write(checks)
 
     st.title("📊 Análise de Progresso")
     st.header("Simbora Vinícius - VAI DAR CERTO! FOCO!")
@@ -153,15 +154,18 @@ if menu == "Análise":
     # ======================
 
     modalidades = {
+        "Musculação": 0,
         "Natação": 0,
         "Bike": 0,
         "Corrida": 0,
         "Brick": 0
     }
-
+    
     for key, value in checks.items():
         if value:
-            if "_nat" in key:
+            if "_mus" in key:
+                modalidades["Musculação"] += 1
+            elif "_nat" in key:
                 modalidades["Natação"] += 1
             elif "_bike" in key:
                 modalidades["Bike"] += 1
@@ -228,6 +232,7 @@ if menu == "Análise":
         plt.xticks(rotation=45)
 
         st.pyplot(fig2)
+
 
 
 
