@@ -26,7 +26,6 @@ def fase(s):
     return 1 if s<=4 else 2 if s<=8 else 3 if s<=12 else 4
 
 def treinos_do_dia(semana, dia, d):
-    f = fase(semana)
     key = d.strftime("%Y%m%d")
     t = []
 
@@ -34,17 +33,13 @@ def treinos_do_dia(semana, dia, d):
         t.append((f"{key}_prova","🏆","DIA DA PROVA!\nNado 750m → Bike 20km → Corrida 5km 🎉","prova"))
         return t
 
-    if dia in (0,2):
-        t.append((f"{key}_nat","🔵","Natação","nat"))
+    # TODOS OS DIAS TERÃO TODAS AS OPÇÕES
 
-    if dia in (1,3):
-        t.append((f"{key}_bike","🟢","Bike","bike"))
-
-    if dia in (2,5):
-        t.append((f"{key}_run","🔴","Corrida","run"))
-
-    if dia == 6:
-        t.append((f"{key}_brick","🟠","Brick","brick"))
+    t.append((f"{key}_mus","💪","Musculação","mus"))
+    t.append((f"{key}_nat","🔵","Natação","nat"))
+    t.append((f"{key}_bike","🟢","Bike","bike"))
+    t.append((f"{key}_run","🔴","Corrida","run"))
+    t.append((f"{key}_brick","🟠","Brick","brick"))
 
     return t
 
@@ -229,6 +224,7 @@ if menu == "Análise":
         plt.xticks(rotation=45)
 
         st.pyplot(fig2)
+
 
 
 
