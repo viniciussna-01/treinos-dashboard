@@ -25,8 +25,18 @@ def get_sheet():
 
 def load_checks():
     sheet = get_sheet()
-    rows = sheet.get_all_records()
-    return {r["key"]: r["value"] == "True" for r in rows}
+    rows = sheet.get_all_values()
+
+    checks = {}
+
+    # Ignora cabeçalho
+    for row in rows[1:]:
+        if len(row) >= 2:
+            key = row[0]
+            value = row[1]
+            checks[key] = value == "True"
+
+    return checks
 
 
 def save_check(key: str, value: bool):
@@ -42,5 +52,6 @@ def save_check(key: str, value: bool):
         if len(row) > 0 and row[0] == key:
             sheet.update_cell(i + 1, 2, str(value))
             return
+
 
     sheet.append_row([key, str(value)])
