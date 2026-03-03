@@ -114,8 +114,7 @@ azul_escuro = "#1565C0"
 if menu == "Análise":
 
     checks = get_checks()
-    st.write(checks)
-
+    
     st.title("📊 Análise de Progresso")
     st.header("Simbora Vinícius - VAI DAR CERTO! FOCO!")
     st.markdown("---")
@@ -232,6 +231,7 @@ if menu == "Análise":
         plt.xticks(rotation=45)
 
         st.pyplot(fig2)
+
 
 
 
