@@ -33,8 +33,8 @@ def load_checks():
     for row in rows[1:]:
         if len(row) >= 2:
             key = row[0]
-            value = row[1]
-            checks[key] = value == "True"
+            value = row[1].strip().lower()
+            checks[key] = value == "true"
 
     return checks
 
@@ -55,3 +55,4 @@ def save_check(key: str, value: bool):
 
 
     sheet.append_row([key, str(value)])
+
